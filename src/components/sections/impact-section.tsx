@@ -7,11 +7,11 @@ const stats = [
 
 const photos = [
   {
-    src: "src/assets/impact-image1.jpg",
+    src: "/assets/impact-image1.jpg",
     caption: "Hundreds of young minds. One room. Infinite potential.",
   },
   {
-    src: "src/assets/impact-image2.jpg",
+    src: "/assets/impact-image2.jpg",
     caption: "Michael Adesanya at ASC 2024.",
   },
 ];
@@ -45,12 +45,12 @@ const timeline = [
 ];
 
 const gallery = [
-  { src: "src/assets/gallery1.jpg", alt: "Scholarship winner with award certificate" },
-  { src: "src/assets/gallery2.jpg", alt: "Grand prize cheque presentation" },
-  { src: "src/assets/gallery3.jpg", alt: "Students at the registration desk" },
-  { src: "src/assets/gallery4.jpg", alt: "Keynote session on stage" },
-  { src: "src/assets/gallery5.jpg", alt: "Adewale Students Conference venue" },
-  { src: "src/assets/gallery6.jpg", alt: "Audience at the Grand Finale" },
+  { src: "/assets/gallery1.jpg", alt: "Scholarship winner with award certificate" },
+  { src: "/assets/gallery2.jpg", alt: "Grand prize cheque presentation" },
+  { src: "/assets/gallery3.jpg", alt: "Students at the registration desk" },
+  { src: "/assets/gallery4.jpg", alt: "Keynote session on stage" },
+  { src: "/assets/gallery5.jpg", alt: "Adewale Students Conference venue" },
+  { src: "/assets/gallery6.jpg", alt: "Audience at the Grand Finale" },
 ];
 
 export default function ImpactSection() {

@@ -1,3 +1,5 @@
+"use client";
+
 interface MobileMenuProps {
   links: Array<{ label: string; href: string }>;
   onClose: () => void;
@@ -22,11 +24,11 @@ export default function MobileMenu({ links, onClose }: MobileMenuProps) {
           </a>
         ))}
         <a
-          href="#register"
+          href="#partner"
           className="text-sm font-bold tracking-widest uppercase bg-[#E8A020] text-[#0A0F1E] px-5 py-2 text-center hover:bg-[#F5C55A] transition-colors duration-200"
           onClick={handleLinkClick}
         >
-          Register
+          Partner With Us
         </a>
       </div>
     </div>

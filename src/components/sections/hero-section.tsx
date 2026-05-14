@@ -68,7 +68,7 @@ export default function HeroSection() {
 
         <div className="relative min-h-105 md:min-h-full">
           <img
-            src="src/assets/hero-image.jpg"
+            src="/assets/hero-image.jpg"
             alt="ASC speaker on stage"
             className="absolute inset-0 w-full h-full object-cover opacity-50"
           />

@@ -29,7 +29,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
         <div className="relative aspect-4/5 md:aspect-auto md:h-full md:min-h-150 overflow-hidden">
           <img
-            src="src/assets/about-image.jpg"
+            src="/assets/about-image.jpg"
             alt="ASC Grand Finale group photo"
             className="absolute inset-0 w-full h-full object-cover"
           />
