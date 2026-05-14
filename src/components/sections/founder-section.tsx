@@ -16,7 +16,7 @@ export default function FounderSection() {
         <div className="md:col-span-2 flex flex-col">
           <div className="relative aspect-3/4 overflow-hidden">
             <img
-              src="src/assets/founder.jpg"
+              src="/assets/founder.jpg"
               alt="Michael Adewale Adesanya portrait"
               className="absolute inset-0 w-full h-full object-cover"
             />

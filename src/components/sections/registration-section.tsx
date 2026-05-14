@@ -1,4 +1,5 @@
 import { Button } from "../../components/ui/button";
+import RegisterSchoolButton from "./register-school-button";
 
 const eligibilityItems = [
   "Open to all public and private secondary schools in Ogun State",
@@ -93,7 +94,7 @@ export default function RegistrationSection() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <Button variant="default" className="py-6">Register Your School — Opens May 1st</Button>
+              <RegisterSchoolButton />
               <Button variant="secondary" className="py-6" asChild>
                 <a href="mailto:hello@asc2026.ng?subject=ASC%202026%20Registration%20Question">
                   Have a question? Email Us

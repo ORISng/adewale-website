@@ -1,0 +1,494 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Button } from "../../components/ui/button";
+
+const LGA_OPTIONS = [
+  "Abeokuta North", "Abeokuta South", "Ado-Odo/Ota", "Ewekoro", "Ifo",
+  "Ijebu North East", "Ijebu North", "Ijebu Ode", "Ijebu East", "Ikenne",
+  "Imeko Afon", "Ipokia", "Obafemi Owode", "Odeda", "Odogbolu",
+  "Ogun Waterside", "Remo North", "Sagamu", "Yewa North", "Yewa South",
+];
+
+const initialFormData = {
+  studentRep1FullName: "",
+  studentRep1DOB: "",
+  studentRep1Gender: "",
+  studentRep1Class: "",
+  studentRep1GuardianName: "",
+  studentRep1GuardianNumber: "",
+
+  studentRep2FullName: "",
+  studentRep2DOB: "",
+  studentRep2Gender: "",
+  studentRep2Class: "",
+  studentRep2GuardianName: "",
+  studentRep2GuardianNumber: "",
+
+  studentRep3FullName: "",
+  studentRep3DOB: "",
+  studentRep3Gender: "",
+  studentRep3Class: "",
+  studentRep3GuardianName: "",
+  studentRep3GuardianNumber: "",
+
+  schoolLGA: "",
+  schoolCategory: "",
+  schoolFullName: "",
+  schoolAddress: "",
+  schoolEmail: "",
+  hearAboutAdewale: "",
+
+  principalFullName: "",
+  principalGender: "",
+  principalNumber: "",
+  principalEmail: "",
+
+  teacherFullName: "",
+  teacherGender: "",
+  teacherNumber: "",
+  teacherEmail: "",
+
+  participatedLastEdition: "",
+  likesAboutLastEdition: "",
+  expectationFromLastEdition: "",
+};
+
+type FormData = typeof initialFormData;
+
+const inputClass =
+  "w-full bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:border-[#E8A020] transition-colors text-sm";
+
+const selectClass =
+  "w-full bg-white/5 border border-white/10 px-4 py-3 text-white outline-none focus:border-[#E8A020] transition-colors cursor-pointer appearance-none text-sm";
+
+const labelClass =
+  "block text-[10px] font-bold tracking-widest uppercase text-white/40 mb-2";
+
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label className={labelClass}>{label}</label>
+      {children}
+    </div>
+  );
+}
+
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-5 mt-2">
+      <span className="block w-6 h-px bg-[#E8A020]" />
+      <span className="font-bebas text-lg md:text-xl tracking-widest text-[#E8A020]">
+        {title}
+      </span>
+    </div>
+  );
+}
+
+function StudentRepSection({
+  num,
+  prefix,
+  formData,
+  onChange,
+}: {
+  num: 1 | 2 | 3;
+  prefix: "studentRep1" | "studentRep2" | "studentRep3";
+  formData: FormData;
+  onChange: (name: keyof FormData, value: string) => void;
+}) {
+  return (
+    <div>
+      <SectionHeader title={`Student Representative ${num}`} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label="Full Name">
+          <input
+            type="text"
+            required
+            value={formData[`${prefix}FullName` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}FullName` as keyof FormData, e.target.value)}
+            placeholder="Full name"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Date of Birth">
+          <input
+            type="date"
+            required
+            value={formData[`${prefix}DOB` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}DOB` as keyof FormData, e.target.value)}
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Gender">
+          <select
+            required
+            value={formData[`${prefix}Gender` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}Gender` as keyof FormData, e.target.value)}
+            className={selectClass}
+          >
+            <option value="" className="bg-[#0A0F1E]">Select gender</option>
+            <option value="Male" className="bg-[#0A0F1E]">Male</option>
+            <option value="Female" className="bg-[#0A0F1E]">Female</option>
+          </select>
+        </Field>
+        <Field label="Class">
+          <select
+            required
+            value={formData[`${prefix}Class` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}Class` as keyof FormData, e.target.value)}
+            className={selectClass}
+          >
+            <option value="" className="bg-[#0A0F1E]">Select class</option>
+            <option value="SS 1" className="bg-[#0A0F1E]">SS 1</option>
+            <option value="SS 2" className="bg-[#0A0F1E]">SS 2</option>
+          </select>
+        </Field>
+        <Field label="Guardian Name">
+          <input
+            type="text"
+            required
+            value={formData[`${prefix}GuardianName` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}GuardianName` as keyof FormData, e.target.value)}
+            placeholder="Guardian's full name"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Guardian Number">
+          <input
+            type="tel"
+            required
+            value={formData[`${prefix}GuardianNumber` as keyof FormData]}
+            onChange={(e) => onChange(`${prefix}GuardianNumber` as keyof FormData, e.target.value)}
+            placeholder="+234 _"
+            className={inputClass}
+          />
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+interface RegistrationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const handleChange = (name: keyof FormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setFormData(initialFormData);
+      onClose();
+    }, 2500);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm p-0 sm:p-4 md:p-8"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="registration-modal-title"
+    >
+      <div
+        className="relative bg-[#0A0F1E] w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-3xl flex flex-col shadow-2xl border border-white/10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between p-4 md:p-4 border-b border-white/10 shrink-0">
+          <div>
+            <h3
+              id="registration-modal-title"
+              className="font-bebas text-xl md:text-2xl text-white tracking-tight"
+            >
+              REGISTER YOUR SCHOOL
+            </h3>
+            <p className="text-xs md:text-sm text-white/50 mt-1">
+              Complete all fields. We'll confirm your registration within 48 hours.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="text-white/60 hover:text-[#E8A020] transition-colors -mt-1 -mr-1 p-2"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 overflow-y-auto px-6 md:px-8 py-6 space-y-8 scrollbar-none [&::-webkit-scrollbar]:hidden"
+        >
+          <StudentRepSection num={1} prefix="studentRep1" formData={formData} onChange={handleChange} />
+          <StudentRepSection num={2} prefix="studentRep2" formData={formData} onChange={handleChange} />
+          <StudentRepSection num={3} prefix="studentRep3" formData={formData} onChange={handleChange} />
+
+          <div>
+            <SectionHeader title="School Information" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="School Full Name">
+                <input
+                  type="text"
+                  required
+                  value={formData.schoolFullName}
+                  onChange={(e) => handleChange("schoolFullName", e.target.value)}
+                  placeholder="Name of school"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="School Category">
+                <select
+                  required
+                  value={formData.schoolCategory}
+                  onChange={(e) => handleChange("schoolCategory", e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">Select category</option>
+                  <option value="Public" className="bg-[#0A0F1E]">Public</option>
+                  <option value="Private" className="bg-[#0A0F1E]">Private</option>
+                </select>
+              </Field>
+              <Field label="School LGA">
+                <select
+                  required
+                  value={formData.schoolLGA}
+                  onChange={(e) => handleChange("schoolLGA", e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">Select LGA</option>
+                  {LGA_OPTIONS.map((lga) => (
+                    <option key={lga} value={lga} className="bg-[#0A0F1E]">
+                      {lga}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="School Email Address">
+                <input
+                  type="email"
+                  required
+                  value={formData.schoolEmail}
+                  onChange={(e) => handleChange("schoolEmail", e.target.value)}
+                  placeholder="school@example.com"
+                  className={inputClass}
+                />
+              </Field>
+              <div className="sm:col-span-2">
+                <Field label="School Address">
+                  <input
+                    type="text"
+                    required
+                    value={formData.schoolAddress}
+                    onChange={(e) => handleChange("schoolAddress", e.target.value)}
+                    placeholder="Full school address"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+              <div className="sm:col-span-2">
+                <Field label="How Did You Hear About Adewale?">
+                  <input
+                    type="text"
+                    required
+                    value={formData.hearAboutAdewale}
+                    onChange={(e) => handleChange("hearAboutAdewale", e.target.value)}
+                    placeholder="e.g. friend, social media, previous edition"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader title="Principal Information" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Principal Full Name">
+                <input
+                  type="text"
+                  required
+                  value={formData.principalFullName}
+                  onChange={(e) => handleChange("principalFullName", e.target.value)}
+                  placeholder="Full name"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Principal Gender">
+                <select
+                  required
+                  value={formData.principalGender}
+                  onChange={(e) => handleChange("principalGender", e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">Select gender</option>
+                  <option value="Male" className="bg-[#0A0F1E]">Male</option>
+                  <option value="Female" className="bg-[#0A0F1E]">Female</option>
+                </select>
+              </Field>
+              <Field label="Principal Number">
+                <input
+                  type="tel"
+                  required
+                  value={formData.principalNumber}
+                  onChange={(e) => handleChange("principalNumber", e.target.value)}
+                  placeholder="+234 _"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Principal Email Address">
+                <input
+                  type="email"
+                  required
+                  value={formData.principalEmail}
+                  onChange={(e) => handleChange("principalEmail", e.target.value)}
+                  placeholder="principal@example.com"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader title="Supervising Teacher" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Teacher Full Name">
+                <input
+                  type="text"
+                  required
+                  value={formData.teacherFullName}
+                  onChange={(e) => handleChange("teacherFullName", e.target.value)}
+                  placeholder="Full name"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Teacher Gender">
+                <select
+                  required
+                  value={formData.teacherGender}
+                  onChange={(e) => handleChange("teacherGender", e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">Select gender</option>
+                  <option value="Male" className="bg-[#0A0F1E]">Male</option>
+                  <option value="Female" className="bg-[#0A0F1E]">Female</option>
+                </select>
+              </Field>
+              <Field label="Teacher Number">
+                <input
+                  type="tel"
+                  required
+                  value={formData.teacherNumber}
+                  onChange={(e) => handleChange("teacherNumber", e.target.value)}
+                  placeholder="+234 _"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Teacher Email Address">
+                <input
+                  type="email"
+                  required
+                  value={formData.teacherEmail}
+                  onChange={(e) => handleChange("teacherEmail", e.target.value)}
+                  placeholder="teacher@example.com"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader title="Past Edition" />
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Did Your School Participate In The Last Edition?">
+                <select
+                  required
+                  value={formData.participatedLastEdition}
+                  onChange={(e) => handleChange("participatedLastEdition", e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">Select an option</option>
+                  <option value="Yes" className="bg-[#0A0F1E]">Yes</option>
+                  <option value="No" className="bg-[#0A0F1E]">No</option>
+                </select>
+              </Field>
+              <Field label="What Did You Like About The Last Edition?">
+                <input
+                  type="text"
+                  value={formData.likesAboutLastEdition}
+                  onChange={(e) => handleChange("likesAboutLastEdition", e.target.value)}
+                  placeholder="Share your favourite moments"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="What Are Your Expectations For This Edition?">
+                <input
+                  type="text"
+                  value={formData.expectationFromLastEdition}
+                  onChange={(e) => handleChange("expectationFromLastEdition", e.target.value)}
+                  placeholder="Tell us what you're hoping for"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+          </div>
+        </form>
+
+        <div className="border-t border-white/10 p-4 md:p-4 shrink-0 bg-[#0A0F1E]">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={submitted}
+            className={`w-full py-5 rounded-none font-bold text-xs tracking-[0.2em] uppercase transition-all duration-300 ${
+              submitted
+                ? "bg-[#1A7A4A] text-white hover:bg-[#1A7A4A]"
+                : "bg-[#E8A020] text-[#0A0F1E] hover:bg-white"
+            }`}
+          >
+            {submitted ? "✓ REGISTRATION SUBMITTED" : "SUBMIT REGISTRATION →"}
+          </Button>
+          <p className="text-[10px] text-white/30 text-center mt-4 leading-relaxed">
+            By submitting, you confirm that the information provided is accurate to the best of your knowledge.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
