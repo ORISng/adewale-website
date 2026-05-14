@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FAF7F0;
+  --color-foreground: #0A0F1E;
+
+  --color-primary: #E8A020;
+  --color-primary-foreground: #0A0F1E;
+
+  --color-secondary: #1C2540;
+  --color-secondary-foreground: #F0EAD8;
+
+  --color-muted: #F0EAD8;
+  --color-muted-foreground: #4A4E5C;
+
+  --color-accent: #E8A020;
+  --color-accent-foreground: #0A0F1E;
+
+  --color-destructive: #B91C1C;
+  --color-destructive-foreground: #FAF7F0;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0A0F1E;
+
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #0A0F1E;
+
+  --color-border: rgba(10, 15, 30, 0.12);
+  --color-input: rgba(10, 15, 30, 0.12);
+  --color-ring: #E8A020;
+
+  --animate-marquee: marquee 35s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+}
