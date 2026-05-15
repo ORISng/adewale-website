@@ -1,60 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import {
+  initialRegistrationFormData,
+  LGA_OPTIONS,
+  type RegistrationFormData,
+} from "@/lib/forms";
 import { Button } from "../../components/ui/button";
-
-const LGA_OPTIONS = [
-  "Abeokuta North", "Abeokuta South", "Ado-Odo/Ota", "Ewekoro", "Ifo",
-  "Ijebu North East", "Ijebu North", "Ijebu Ode", "Ijebu East", "Ikenne",
-  "Imeko Afon", "Ipokia", "Obafemi Owode", "Odeda", "Odogbolu",
-  "Ogun Waterside", "Remo North", "Sagamu", "Yewa North", "Yewa South",
-];
-
-const initialFormData = {
-  studentRep1FullName: "",
-  studentRep1DOB: "",
-  studentRep1Gender: "",
-  studentRep1Class: "",
-  studentRep1GuardianName: "",
-  studentRep1GuardianNumber: "",
-
-  studentRep2FullName: "",
-  studentRep2DOB: "",
-  studentRep2Gender: "",
-  studentRep2Class: "",
-  studentRep2GuardianName: "",
-  studentRep2GuardianNumber: "",
-
-  studentRep3FullName: "",
-  studentRep3DOB: "",
-  studentRep3Gender: "",
-  studentRep3Class: "",
-  studentRep3GuardianName: "",
-  studentRep3GuardianNumber: "",
-
-  schoolLGA: "",
-  schoolCategory: "",
-  schoolFullName: "",
-  schoolAddress: "",
-  schoolEmail: "",
-  hearAboutAdewale: "",
-
-  principalFullName: "",
-  principalGender: "",
-  principalNumber: "",
-  principalEmail: "",
-
-  teacherFullName: "",
-  teacherGender: "",
-  teacherNumber: "",
-  teacherEmail: "",
-
-  participatedLastEdition: "",
-  likesAboutLastEdition: "",
-  expectationFromLastEdition: "",
-};
-
-type FormData = typeof initialFormData;
 
 const inputClass =
   "w-full bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:border-[#E8A020] transition-colors text-sm";
@@ -99,8 +52,8 @@ function StudentRepSection({
 }: {
   num: 1 | 2 | 3;
   prefix: "studentRep1" | "studentRep2" | "studentRep3";
-  formData: FormData;
-  onChange: (name: keyof FormData, value: string) => void;
+  formData: RegistrationFormData;
+  onChange: (name: keyof RegistrationFormData, value: string) => void;
 }) {
   return (
     <div>
@@ -110,8 +63,13 @@ function StudentRepSection({
           <input
             type="text"
             required
-            value={formData[`${prefix}FullName` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}FullName` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}FullName` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(
+                `${prefix}FullName` as keyof RegistrationFormData,
+                e.target.value,
+              )
+            }
             placeholder="Full name"
             className={inputClass}
           />
@@ -120,41 +78,70 @@ function StudentRepSection({
           <input
             type="date"
             required
-            value={formData[`${prefix}DOB` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}DOB` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}DOB` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(`${prefix}DOB` as keyof RegistrationFormData, e.target.value)
+            }
             className={inputClass}
           />
         </Field>
         <Field label="Gender">
           <select
             required
-            value={formData[`${prefix}Gender` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}Gender` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}Gender` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(
+                `${prefix}Gender` as keyof RegistrationFormData,
+                e.target.value,
+              )
+            }
             className={selectClass}
           >
-            <option value="" className="bg-[#0A0F1E]">Select gender</option>
-            <option value="Male" className="bg-[#0A0F1E]">Male</option>
-            <option value="Female" className="bg-[#0A0F1E]">Female</option>
+            <option value="" className="bg-[#0A0F1E]">
+              Select gender
+            </option>
+            <option value="Male" className="bg-[#0A0F1E]">
+              Male
+            </option>
+            <option value="Female" className="bg-[#0A0F1E]">
+              Female
+            </option>
           </select>
         </Field>
         <Field label="Class">
           <select
             required
-            value={formData[`${prefix}Class` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}Class` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}Class` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(
+                `${prefix}Class` as keyof RegistrationFormData,
+                e.target.value,
+              )
+            }
             className={selectClass}
           >
-            <option value="" className="bg-[#0A0F1E]">Select class</option>
-            <option value="SS 1" className="bg-[#0A0F1E]">SS 1</option>
-            <option value="SS 2" className="bg-[#0A0F1E]">SS 2</option>
+            <option value="" className="bg-[#0A0F1E]">
+              Select class
+            </option>
+            <option value="SS 1" className="bg-[#0A0F1E]">
+              SS 1
+            </option>
+            <option value="SS 2" className="bg-[#0A0F1E]">
+              SS 2
+            </option>
           </select>
         </Field>
         <Field label="Guardian Name">
           <input
             type="text"
             required
-            value={formData[`${prefix}GuardianName` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}GuardianName` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}GuardianName` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(
+                `${prefix}GuardianName` as keyof RegistrationFormData,
+                e.target.value,
+              )
+            }
             placeholder="Guardian's full name"
             className={inputClass}
           />
@@ -163,8 +150,13 @@ function StudentRepSection({
           <input
             type="tel"
             required
-            value={formData[`${prefix}GuardianNumber` as keyof FormData]}
-            onChange={(e) => onChange(`${prefix}GuardianNumber` as keyof FormData, e.target.value)}
+            value={formData[`${prefix}GuardianNumber` as keyof RegistrationFormData]}
+            onChange={(e) =>
+              onChange(
+                `${prefix}GuardianNumber` as keyof RegistrationFormData,
+                e.target.value,
+              )
+            }
             placeholder="+234 _"
             className={inputClass}
           />
@@ -179,9 +171,16 @@ interface RegistrationModalProps {
   onClose: () => void;
 }
 
-export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+export default function RegistrationModal({
+  isOpen,
+  onClose,
+}: RegistrationModalProps) {
+  const [formData, setFormData] = useState<RegistrationFormData>(
+    initialRegistrationFormData,
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -199,18 +198,53 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
 
   if (!isOpen) return null;
 
-  const handleChange = (name: keyof FormData, value: string) => {
+  const handleChange = (name: keyof RegistrationFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData(initialFormData);
-      onClose();
-    }, 2500);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const payload = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+
+      if (!response.ok) {
+        throw new Error(payload?.error || "Unable to submit registration right now.");
+      }
+
+      setSubmitted(true);
+      toast.success("Registration submitted successfully.");
+
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData(initialRegistrationFormData);
+        setSubmitError("");
+        onClose();
+      }, 2000);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to submit registration right now.";
+      setSubmitError(message);
+      toast.error(
+        message,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -234,7 +268,8 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               REGISTER YOUR SCHOOL
             </h3>
             <p className="text-xs md:text-sm text-white/50 mt-1">
-              Complete all fields. We'll confirm your registration within 48 hours.
+              Complete all fields. We&apos;ll confirm your registration within 48
+              hours.
             </p>
           </div>
           <button
@@ -254,12 +289,28 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
         </div>
 
         <form
+          id="registration-form"
           onSubmit={handleSubmit}
           className="flex-1 overflow-y-auto px-6 md:px-8 py-6 space-y-8 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
-          <StudentRepSection num={1} prefix="studentRep1" formData={formData} onChange={handleChange} />
-          <StudentRepSection num={2} prefix="studentRep2" formData={formData} onChange={handleChange} />
-          <StudentRepSection num={3} prefix="studentRep3" formData={formData} onChange={handleChange} />
+          <StudentRepSection
+            num={1}
+            prefix="studentRep1"
+            formData={formData}
+            onChange={handleChange}
+          />
+          <StudentRepSection
+            num={2}
+            prefix="studentRep2"
+            formData={formData}
+            onChange={handleChange}
+          />
+          <StudentRepSection
+            num={3}
+            prefix="studentRep3"
+            formData={formData}
+            onChange={handleChange}
+          />
 
           <div>
             <SectionHeader title="School Information" />
@@ -281,9 +332,15 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   onChange={(e) => handleChange("schoolCategory", e.target.value)}
                   className={selectClass}
                 >
-                  <option value="" className="bg-[#0A0F1E]">Select category</option>
-                  <option value="Public" className="bg-[#0A0F1E]">Public</option>
-                  <option value="Private" className="bg-[#0A0F1E]">Private</option>
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select category
+                  </option>
+                  <option value="Public" className="bg-[#0A0F1E]">
+                    Public
+                  </option>
+                  <option value="Private" className="bg-[#0A0F1E]">
+                    Private
+                  </option>
                 </select>
               </Field>
               <Field label="School LGA">
@@ -293,7 +350,9 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   onChange={(e) => handleChange("schoolLGA", e.target.value)}
                   className={selectClass}
                 >
-                  <option value="" className="bg-[#0A0F1E]">Select LGA</option>
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select LGA
+                  </option>
                   {LGA_OPTIONS.map((lga) => (
                     <option key={lga} value={lga} className="bg-[#0A0F1E]">
                       {lga}
@@ -358,9 +417,15 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   onChange={(e) => handleChange("principalGender", e.target.value)}
                   className={selectClass}
                 >
-                  <option value="" className="bg-[#0A0F1E]">Select gender</option>
-                  <option value="Male" className="bg-[#0A0F1E]">Male</option>
-                  <option value="Female" className="bg-[#0A0F1E]">Female</option>
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select gender
+                  </option>
+                  <option value="Male" className="bg-[#0A0F1E]">
+                    Male
+                  </option>
+                  <option value="Female" className="bg-[#0A0F1E]">
+                    Female
+                  </option>
                 </select>
               </Field>
               <Field label="Principal Number">
@@ -406,9 +471,15 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   onChange={(e) => handleChange("teacherGender", e.target.value)}
                   className={selectClass}
                 >
-                  <option value="" className="bg-[#0A0F1E]">Select gender</option>
-                  <option value="Male" className="bg-[#0A0F1E]">Male</option>
-                  <option value="Female" className="bg-[#0A0F1E]">Female</option>
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select gender
+                  </option>
+                  <option value="Male" className="bg-[#0A0F1E]">
+                    Male
+                  </option>
+                  <option value="Female" className="bg-[#0A0F1E]">
+                    Female
+                  </option>
                 </select>
               </Field>
               <Field label="Teacher Number">
@@ -441,19 +512,29 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                 <select
                   required
                   value={formData.participatedLastEdition}
-                  onChange={(e) => handleChange("participatedLastEdition", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("participatedLastEdition", e.target.value)
+                  }
                   className={selectClass}
                 >
-                  <option value="" className="bg-[#0A0F1E]">Select an option</option>
-                  <option value="Yes" className="bg-[#0A0F1E]">Yes</option>
-                  <option value="No" className="bg-[#0A0F1E]">No</option>
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select an option
+                  </option>
+                  <option value="Yes" className="bg-[#0A0F1E]">
+                    Yes
+                  </option>
+                  <option value="No" className="bg-[#0A0F1E]">
+                    No
+                  </option>
                 </select>
               </Field>
               <Field label="What Did You Like About The Last Edition?">
                 <input
                   type="text"
                   value={formData.likesAboutLastEdition}
-                  onChange={(e) => handleChange("likesAboutLastEdition", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("likesAboutLastEdition", e.target.value)
+                  }
                   placeholder="Share your favourite moments"
                   className={inputClass}
                 />
@@ -462,7 +543,9 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                 <input
                   type="text"
                   value={formData.expectationFromLastEdition}
-                  onChange={(e) => handleChange("expectationFromLastEdition", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("expectationFromLastEdition", e.target.value)
+                  }
                   placeholder="Tell us what you're hoping for"
                   className={inputClass}
                 />
@@ -472,20 +555,30 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
         </form>
 
         <div className="border-t border-white/10 p-4 md:p-4 shrink-0 bg-[#0A0F1E]">
+          {submitError ? (
+            <p className="mb-4 border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+              {submitError}
+            </p>
+          ) : null}
           <Button
             type="submit"
-            onClick={handleSubmit}
-            disabled={submitted}
+            form="registration-form"
+            disabled={submitted || isSubmitting}
             className={`w-full py-5 rounded-none font-bold text-xs tracking-[0.2em] uppercase transition-all duration-300 ${
               submitted
                 ? "bg-[#1A7A4A] text-white hover:bg-[#1A7A4A]"
                 : "bg-[#E8A020] text-[#0A0F1E] hover:bg-white"
             }`}
           >
-            {submitted ? "✓ REGISTRATION SUBMITTED" : "SUBMIT REGISTRATION →"}
+            {submitted
+              ? "REGISTRATION SUBMITTED"
+              : isSubmitting
+                ? "SUBMITTING..."
+                : "SUBMIT REGISTRATION"}
           </Button>
           <p className="text-[10px] text-white/30 text-center mt-4 leading-relaxed">
-            By submitting, you confirm that the information provided is accurate to the best of your knowledge.
+            By submitting, you confirm that the information provided is accurate
+            to the best of your knowledge.
           </p>
         </div>
       </div>
