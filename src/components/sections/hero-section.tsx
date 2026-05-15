@@ -32,10 +32,10 @@ export default function HeroSection() {
             </span>
           </div>
 
-          <h1 className="font-bebas text-6xl sm:text-7xl md:text-7xl lg:text-8xl leading-[0.95] text-white">
+          <h1 className="font-bebas text-5xl sm:text-6xl md:text-6xl lg:text-7xl leading-[0.95] text-white">
             <span className="block">Building</span>
             <span className="block text-[#E8A020]">Tomorrow's</span>
-            <span className="block mt-6 md:mt-10">Geniuses</span>
+            <span className="block mt-4 md:mt-5">Geniuses</span>
             <span className="block">Today.</span>
           </h1>
 
@@ -46,22 +46,22 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-3 mb-10">
             <Button
               variant="default"
-              className="rounded-none h-12 px-8 text-xs font-bold tracking-[0.2em] uppercase"
+              className="rounded-none h-12 px-6 text-xs font-bold tracking-[0.2em] uppercase"
               asChild
             >
               <a href="#partner">Become a Partner</a>
             </Button>
             <Button
               variant="outline"
-              className="rounded-none h-12 px-8 text-xs font-bold tracking-[0.2em] uppercase !border-[#F0EAD8] text-[#F0EAD8] hover:border-[#E8A020] hover:text-[#E8A020]"
+              className="rounded-none h-12 px-6 text-xs font-bold tracking-[0.2em] uppercase !border-[#F0EAD8] text-[#F0EAD8] hover:border-[#E8A020] hover:text-[#E8A020]"
               asChild
             >
               <a href="#register">Register Your School</a>
             </Button>
           </div>
 
-          <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 self-start border border-[rgba(232,160,32,0.35)] px-4 py-2.5 text-[8px] md:text-xs tracking-[0.2em]">
-            <span className="text-[rgba(250,247,240,0.55)]">An Initiative of the<span className="text-[#E8A020] font-bold">  Ogun Economic &amp; Innovation Council</span></span>
+          <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 self-start border border-[rgba(232,160,32,0.35)] px-3 py-2.5 text-[8px] md:text-[10px] tracking-[0.2em]">
+            <span className="text-[rgba(250,247,240,0.55)]">An Initiative of the<span className="text-[#E8A020] font-bold">  Ogun Economic & Innovation Council</span></span>
 
           </div>
         </div>
