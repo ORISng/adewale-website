@@ -24,6 +24,16 @@ export const LGA_OPTIONS = [
   "Yewa North",
   "Yewa South",
 ] as const;
+export const ZONAL_FINALS_OPTIONS = [
+  "Abeokuta",
+  "Ayetoro",
+  "Idiroko",
+  "Ifo",
+  "Ilaro",
+  "Ijebu Ode",
+  "Ota",
+  "Sagamu",
+] as const;
 export const SPONSORSHIP_TIER_OPTIONS = [
   "Platinum - ₦10M+",
   "Gold - ₦5M",
@@ -58,6 +68,7 @@ export const initialRegistrationFormData = {
   schoolAddress: "",
   schoolEmail: "",
   hearAboutAdewale: "",
+  zonalFinalsLocation: "",
   principalFullName: "",
   principalGender: "",
   principalNumber: "",

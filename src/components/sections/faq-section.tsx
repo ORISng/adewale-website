@@ -9,27 +9,15 @@ const faqItems = [
   },
   {
     q: "Which students are eligible for the STEM Contest?",
-    a: "The STEM Contest is open to SS2 students only, in teams of up to four students per school. Each team must be accompanied by a registered supervising teacher. Schools may enter multiple teams.",
+    a: "The STEM Contest is open to SS1 and SS2 students only, in teams of up to three students per school. Each team must be accompanied by a registered supervising teacher. It is compulsory to have at least one female student on the team, except for single-gender schools.",
   },
   {
     q: "What happens if our school wins the zonal stage?",
     a: "Schools that qualify through the zonal stage advance to the October Grand Finale. Travel and accommodation for qualifying student teams and their supervising teacher are covered in full by the ASC programme.",
   },
   {
-    q: "We are a school outside Remo — can we still participate?",
-    a: "Absolutely. ASC is open to all secondary schools across Ogun State. While our roots are in Remo (Sagamu, Ikenne, and Remo North), the programme is statewide and we actively encourage schools from all LGAs to register.",
-  },
-  {
-    q: "How are scholarship recipients selected?",
-    a: "Scholarships are awarded primarily on merit — performance in the STEM Contest and Innovation Pitch stage. A portion of scholarship support is reserved for students who demonstrate exceptional potential but come from underserved communities within the Remo axis.",
-  },
-  {
-    q: "How do I explore a sponsorship partnership?",
-    a: "Complete the expression of interest form in our Partner section and our team will reach out within 48 hours with a full sponsorship deck. Alternatively, email us directly to start the conversation.",
-  },
-  {
-    q: "What is the Ogun Economic & Innovation Council?",
-    a: "The OEIC is a formally registered policy and economic development body co-founded by Michael Adewale Adesanya, focused on driving Ogun State's industrial and innovation future. From 2026, ASC operates as OEIC's flagship community programme.",
+    q: "What schools can participate?",
+    a: "ASC is open to all secondary schools across Ogun State. The programme is statewide and we actively encourage schools from all LGAs to register.",
   },
 ];
 

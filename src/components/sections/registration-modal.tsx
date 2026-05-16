@@ -1,12 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   initialRegistrationFormData,
   LGA_OPTIONS,
+  SCHOOL_CATEGORY_OPTIONS,
+  ZONAL_FINALS_OPTIONS,
   type RegistrationFormData,
 } from "@/lib/forms";
+import {
+  findSchools,
+  NEW_SCHOOL_VALUE,
+} from "@/lib/registered-schools";
 import { Button } from "../../components/ui/button";
 
 const inputClass =
@@ -178,6 +184,7 @@ export default function RegistrationModal({
   const [formData, setFormData] = useState<RegistrationFormData>(
     initialRegistrationFormData,
   );
+  const [schoolSelection, setSchoolSelection] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -196,10 +203,33 @@ export default function RegistrationModal({
     };
   }, [isOpen, onClose]);
 
+  const filteredSchools = useMemo(
+    () => findSchools(formData.schoolLGA, formData.schoolCategory),
+    [formData.schoolLGA, formData.schoolCategory],
+  );
+
   if (!isOpen) return null;
 
   const handleChange = (name: keyof RegistrationFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLGAChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, schoolLGA: value, schoolFullName: "" }));
+    setSchoolSelection("");
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, schoolCategory: value, schoolFullName: "" }));
+    setSchoolSelection("");
+  };
+
+  const handleSchoolSelection = (value: string) => {
+    setSchoolSelection(value);
+    setFormData((prev) => ({
+      ...prev,
+      schoolFullName: value === NEW_SCHOOL_VALUE ? "" : value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -230,6 +260,7 @@ export default function RegistrationModal({
       setTimeout(() => {
         setSubmitted(false);
         setFormData(initialRegistrationFormData);
+        setSchoolSelection("");
         setSubmitError("");
         onClose();
       }, 2000);
@@ -239,13 +270,16 @@ export default function RegistrationModal({
           ? error.message
           : "Unable to submit registration right now.";
       setSubmitError(message);
-      toast.error(
-        message,
-      );
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const showSchoolSelect = formData.schoolLGA && formData.schoolCategory;
+  const isNewSchool = schoolSelection === NEW_SCHOOL_VALUE;
+  const isRegisteredSchoolSelected =
+    schoolSelection !== "" && schoolSelection !== NEW_SCHOOL_VALUE;
 
   return (
     <div
@@ -293,6 +327,165 @@ export default function RegistrationModal({
           onSubmit={handleSubmit}
           className="flex-1 overflow-y-auto px-6 md:px-8 py-6 space-y-8 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
+          <div>
+            <SectionHeader title="School Information" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="School LGA">
+                <select
+                  required
+                  value={formData.schoolLGA}
+                  onChange={(e) => handleLGAChange(e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select LGA
+                  </option>
+                  {LGA_OPTIONS.map((lga) => (
+                    <option key={lga} value={lga} className="bg-[#0A0F1E]">
+                      {lga}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="School Category">
+                <select
+                  required
+                  value={formData.schoolCategory}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select category
+                  </option>
+                  {SCHOOL_CATEGORY_OPTIONS.map((category) => (
+                    <option key={category} value={category} className="bg-[#0A0F1E]">
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+
+              {showSchoolSelect ? (
+                <div className="sm:col-span-2">
+                  <Field label="Select Your School">
+                    <select
+                      required
+                      value={schoolSelection}
+                      onChange={(e) => handleSchoolSelection(e.target.value)}
+                      className={selectClass}
+                    >
+                      <option value="" className="bg-[#0A0F1E]">
+                        {filteredSchools.length > 0
+                          ? "Choose your school"
+                          : "No registered schools match — pick the option below"}
+                      </option>
+                      {filteredSchools.map((school) => (
+                        <option
+                          key={school.name}
+                          value={school.name}
+                          className="bg-[#0A0F1E]"
+                        >
+                          {school.name}
+                        </option>
+                      ))}
+                      <option value={NEW_SCHOOL_VALUE} className="bg-[#0A0F1E]">
+                        My school isn&apos;t listed here
+                      </option>
+                    </select>
+                  </Field>
+                </div>
+              ) : null}
+
+              {isRegisteredSchoolSelected ? (
+                <div className="sm:col-span-2 border border-[#E8A020]/30 bg-[#E8A020]/5 px-4 py-3">
+                  <span className="block text-[10px] font-bold tracking-widest uppercase text-[#E8A020]/80 mb-1">
+                    Registered School
+                  </span>
+                  <p className="text-white font-medium text-sm md:text-base">
+                    {schoolSelection}
+                  </p>
+                </div>
+              ) : null}
+
+              {isNewSchool ? (
+                <div className="sm:col-span-2">
+                  <Field label="School Full Name">
+                    <input
+                      type="text"
+                      required
+                      value={formData.schoolFullName}
+                      onChange={(e) =>
+                        handleChange("schoolFullName", e.target.value)
+                      }
+                      placeholder="Enter your school's full name"
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+              ) : null}
+
+              <Field label="School Email Address">
+                <input
+                  type="email"
+                  required
+                  value={formData.schoolEmail}
+                  onChange={(e) => handleChange("schoolEmail", e.target.value)}
+                  placeholder="school@example.com"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="School Address">
+                <input
+                  type="text"
+                  required
+                  value={formData.schoolAddress}
+                  onChange={(e) => handleChange("schoolAddress", e.target.value)}
+                  placeholder="Full school address"
+                  className={inputClass}
+                />
+              </Field>
+              <div className="sm:col-span-2">
+                <Field label="How Did You Hear About Adewale?">
+                  <input
+                    type="text"
+                    required
+                    value={formData.hearAboutAdewale}
+                    onChange={(e) =>
+                      handleChange("hearAboutAdewale", e.target.value)
+                    }
+                    placeholder="e.g. friend, social media, previous edition"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader title="Zonal Finals" />
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Select Location For Zonal Finals">
+                <select
+                  required
+                  value={formData.zonalFinalsLocation}
+                  onChange={(e) =>
+                    handleChange("zonalFinalsLocation", e.target.value)
+                  }
+                  className={selectClass}
+                >
+                  <option value="" className="bg-[#0A0F1E]">
+                    Select a location
+                  </option>
+                  {ZONAL_FINALS_OPTIONS.map((location) => (
+                    <option key={location} value={location} className="bg-[#0A0F1E]">
+                      {location}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </div>
+          </div>
+
           <StudentRepSection
             num={1}
             prefix="studentRep1"
@@ -311,91 +504,6 @@ export default function RegistrationModal({
             formData={formData}
             onChange={handleChange}
           />
-
-          <div>
-            <SectionHeader title="School Information" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="School Full Name">
-                <input
-                  type="text"
-                  required
-                  value={formData.schoolFullName}
-                  onChange={(e) => handleChange("schoolFullName", e.target.value)}
-                  placeholder="Name of school"
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="School Category">
-                <select
-                  required
-                  value={formData.schoolCategory}
-                  onChange={(e) => handleChange("schoolCategory", e.target.value)}
-                  className={selectClass}
-                >
-                  <option value="" className="bg-[#0A0F1E]">
-                    Select category
-                  </option>
-                  <option value="Public" className="bg-[#0A0F1E]">
-                    Public
-                  </option>
-                  <option value="Private" className="bg-[#0A0F1E]">
-                    Private
-                  </option>
-                </select>
-              </Field>
-              <Field label="School LGA">
-                <select
-                  required
-                  value={formData.schoolLGA}
-                  onChange={(e) => handleChange("schoolLGA", e.target.value)}
-                  className={selectClass}
-                >
-                  <option value="" className="bg-[#0A0F1E]">
-                    Select LGA
-                  </option>
-                  {LGA_OPTIONS.map((lga) => (
-                    <option key={lga} value={lga} className="bg-[#0A0F1E]">
-                      {lga}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="School Email Address">
-                <input
-                  type="email"
-                  required
-                  value={formData.schoolEmail}
-                  onChange={(e) => handleChange("schoolEmail", e.target.value)}
-                  placeholder="school@example.com"
-                  className={inputClass}
-                />
-              </Field>
-              <div className="sm:col-span-2">
-                <Field label="School Address">
-                  <input
-                    type="text"
-                    required
-                    value={formData.schoolAddress}
-                    onChange={(e) => handleChange("schoolAddress", e.target.value)}
-                    placeholder="Full school address"
-                    className={inputClass}
-                  />
-                </Field>
-              </div>
-              <div className="sm:col-span-2">
-                <Field label="How Did You Hear About Adewale?">
-                  <input
-                    type="text"
-                    required
-                    value={formData.hearAboutAdewale}
-                    onChange={(e) => handleChange("hearAboutAdewale", e.target.value)}
-                    placeholder="e.g. friend, social media, previous edition"
-                    className={inputClass}
-                  />
-                </Field>
-              </div>
-            </div>
-          </div>
 
           <div>
             <SectionHeader title="Principal Information" />

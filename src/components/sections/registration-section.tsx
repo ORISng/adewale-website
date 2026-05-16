@@ -3,7 +3,8 @@ import RegisterSchoolButton from "./register-school-button";
 
 const eligibilityItems = [
   "Open to all public and private secondary schools in Ogun State",
-  "STEM Contest: SS2 students only (up to 4 students per school team)",
+  "STEM Contest: SS1 and SS2 students only (up to 3 students per school team)",
+  " It is compulsory to have at least one female student on the team, except for single-gender schools. ",
   "Innovation Pitch: Any student with a problem worth solving",
   "Schools must have a supervising teacher registered with the team",
   "Registration is free — no entry fees for any category",
