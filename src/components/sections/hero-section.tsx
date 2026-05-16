@@ -61,7 +61,7 @@ export default function HeroSection() {
           </div>
 
           <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 self-start border border-[rgba(232,160,32,0.35)] px-3 py-2.5 text-[8px] md:text-[10px] tracking-[0.2em]">
-            <span className="text-[rgba(250,247,240,0.55)]">An Initiative of the<span className="text-[#E8A020] font-bold">  Ogun Economic & Innovation Council</span></span>
+            <span className="text-[rgba(250,247,240,0.55)]">An Initiative of <span className="text-[#E8A020] font-bold"> The Adewale Foundation</span></span>
 
           </div>
         </div>

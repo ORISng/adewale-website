@@ -10,6 +10,7 @@ import {
   type RegistrationFormData,
   SCHOOL_CATEGORY_OPTIONS,
   YES_NO_OPTIONS,
+  ZONAL_FINALS_OPTIONS,
 } from "@/lib/forms";
 
 export const runtime = "nodejs";
@@ -129,6 +130,11 @@ function sanitizeRegistrationPayload(payload: unknown): RegistrationFormData {
     schoolAddress: requireString(data.schoolAddress, "School Address", 300),
     schoolEmail: requireEmail(data.schoolEmail, "School Email Address"),
     hearAboutAdewale: requireString(data.hearAboutAdewale, "Hear About Adewale", 300),
+    zonalFinalsLocation: requireOption(
+      data.zonalFinalsLocation,
+      ZONAL_FINALS_OPTIONS,
+      "Zonal Finals Location",
+    ),
     principalFullName: requireString(data.principalFullName, "Principal Full Name"),
     principalGender: requireOption(data.principalGender, GENDER_OPTIONS, "Principal Gender"),
     principalNumber: requirePhone(data.principalNumber, "Principal Number"),
@@ -176,6 +182,7 @@ function mapRegistrationFields(data: RegistrationFormData) {
     "School Address": data.schoolAddress,
     "School Email Address": data.schoolEmail,
     "Hear About Adewale": data.hearAboutAdewale,
+    "Zonal Finals Location": data.zonalFinalsLocation,
     "Principal Full Name": data.principalFullName,
     "Principal Gender": data.principalGender,
     "Principal Number": data.principalNumber,

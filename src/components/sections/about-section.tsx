@@ -48,7 +48,7 @@ export default function AboutSection() {
           </div>
 
           <h2 className="font-bebas text-5xl md:text-6xl lg:text-7xl leading-[0.95] text-[#0A0F1E]">
-            <span className="block">Six Years.</span>
+            <span className="block">Five Years.</span>
             <span className="block">One Mission.</span>
           </h2>
 

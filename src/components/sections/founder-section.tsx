@@ -1,9 +1,9 @@
 const credentials = [
   "Stanford Connection",
   "Y Combinator Network",
-  "Adjunct Lecturer · UNILAG",
-  "Co-Founder · OEIC",
-  "Remo, Ogun State",
+  // "Adjunct Lecturer · UNILAG",
+  // "Co-Founder · OEIC",
+  // "Remo, Ogun State",
 ];
 
 export default function FounderSection() {
@@ -26,7 +26,7 @@ export default function FounderSection() {
               Michael Adewale Adesanya
             </div>
             <div className="mt-2 text-[10px] md:text-xs font-medium tracking-[0.15em] uppercase text-[rgba(240,234,216,0.65)]">
-              Founder, ASC &middot; Co-Founder, OEIC &middot; Adjunct Lecturer, UNILAG
+              Covener, Adewale Students Conference
             </div>
           </div>
         </div>

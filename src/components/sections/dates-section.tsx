@@ -1,7 +1,7 @@
 const dateSteps = [
   {
     num: "01",
-    when: "May 1–31, 2026",
+    when: "May 18-31, 2026",
     title: "School Registration",
     desc: "Schools submit their entries for the STEM Contest and Innovation Pitch. Registration is free. All public and private secondary schools in Ogun State are eligible. Deadline is strict — don't wait.",
   },
@@ -13,7 +13,7 @@ const dateSteps = [
   },
   {
     num: "03",
-    when: "October 2026",
+    when: "September – October 2026",
     title: "Grand Finale",
     desc: "The main event. 300 selected students and teachers. 700 participants on the final day. Keynote address, STEM finals, Innovation Pitch, panel, and scholarship awards.",
   },

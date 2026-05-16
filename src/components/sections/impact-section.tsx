@@ -2,7 +2,7 @@ const stats = [
   { num: "5,000+", label: "Students Reached Directly" },
   { num: "₦25M+", label: "Scholarship Support Awarded" },
   { num: "1,000", label: "Grand Finale Participants" },
-  { num: "3 LGAs", label: "Remo Communities Served" },
+  { num: "19 LGAs", label: "Ogun Communities Served" },
 ];
 
 const photos = [
@@ -25,7 +25,7 @@ const timeline = [
   {
     year: "2022",
     edition: "Edition II",
-    desc: "Expanded to Ikenne and Remo North. Innovation pitch category introduced.",
+    desc: "Expanded across Ogun State. Innovation pitch category introduced.",
   },
   {
     year: "2023",
@@ -51,6 +51,14 @@ const gallery = [
   { src: "/assets/gallery4.jpg", alt: "Keynote session on stage" },
   { src: "/assets/gallery5.jpg", alt: "Adewale Students Conference venue" },
   { src: "/assets/gallery6.jpg", alt: "Audience at the Grand Finale" },
+  { src: "/assets/gallery7.jpg", alt: "Students celebrating at the Grand Finale" },
+  { src: "/assets/gallery8.jpg", alt: "Innovation pitch in progress" },
+  { src: "/assets/gallery9.JPG", alt: "Award ceremony moment" },
+  { src: "/assets/gallery10.JPG", alt: "Group photo with finalists" },
+  { src: "/assets/gallery11.JPG", alt: "Students engaged in the STEM contest" },
+  { src: "/assets/gallery12.JPG", alt: "Teacher and students at registration" },
+  { src: "/assets/gallery13.JPG", alt: "Adewale Students Conference highlights" },
+  { src: "/assets/gallery14.jpg", alt: "Community gathered at the Grand Finale" },
 ];
 
 export default function ImpactSection() {
@@ -114,7 +122,7 @@ export default function ImpactSection() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-[rgba(232,160,32,0.18)] mb-14 md:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px mb-14 md:mb-16">
           {timeline.map((t) => (
             <div key={t.year} className="bg-[#1C2540] p-5 md:p-6">
               <div className="font-bebas text-2xl md:text-3xl text-[#E8A020] leading-none mb-2">
@@ -132,16 +140,32 @@ export default function ImpactSection() {
 
       </div>
 
-      <div className="grid grid-cols-3 md:grid-cols-6">
-        {gallery.map((g) => (
-          <div key={g.src} className="aspect-square overflow-hidden">
-            <img
-              src={g.src}
-              alt={g.alt}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-        ))}
+      <div className="group relative overflow-hidden">
+        <div className="flex w-max animate-marquee [animation-duration:30s] group-hover:[animation-play-state:paused]">
+          {[0, 1].map((loop) => (
+            <ul
+              key={loop}
+              aria-hidden={loop === 1}
+              className="flex shrink-0 list-none p-0 m-0"
+            >
+              {gallery.map((g, idx) => (
+                <li
+                  key={`${loop}-${idx}`}
+                  className="relative shrink-0 w-[70vw] sm:w-[45vw] md:w-[32vw] lg:w-[22vw] aspect-square overflow-hidden"
+                >
+                  <img
+                    src={g.src}
+                    alt={g.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-16 md:w-24 bg-linear-to-r from-[#0A0F1E] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-16 md:w-24 bg-linear-to-l from-[#0A0F1E] to-transparent" />
       </div>
     </section>
   );
