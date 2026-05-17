@@ -64,6 +64,7 @@ export const initialRegistrationFormData = {
   studentRep3GuardianNumber: "",
   schoolLGA: "",
   schoolCategory: "",
+  schoolSource: "existing",
   schoolFullName: "",
   schoolAddress: "",
   schoolEmail: "",

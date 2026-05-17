@@ -2,19 +2,42 @@ const AIRTABLE_API_BASE = "https://api.airtable.com/v0";
 
 type AirtableRecordFields = Record<string, string>;
 
-function getAirtableConfig() {
-  const apiToken = process.env.NEXT_PUBLIC_AIRTABLE_API_TOKEN;
-  const baseId = process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID;
-  const participantsTableId =
-    process.env.NEXT_PUBLIC_AIRTABLE_PARTICIPANTS_TABLE_ID;
-  const sponsorshipTableId =
-    process.env.NEXT_PUBLIC_AIRTABLE_SPONSORSHIP_TABLE_ID;
+export interface AirtableRecord<TFields extends object> {
+  id: string;
+  createdTime: string;
+  fields: TFields;
+}
 
-  if (!apiToken || !baseId || !participantsTableId || !sponsorshipTableId) {
-    throw new Error("Airtable environment variables are not fully configured.");
+export interface SchoolRecordFields {
+  "School Name"?: string;
+  "School Category"?: string;
+  "School Local Government Area"?: string;
+}
+
+function getRequiredEnvValue(serverKey: string, publicKey: string, label: string) {
+  const value = process.env[serverKey] ?? process.env[publicKey];
+
+  if (!value) {
+    throw new Error(`${label} is not configured.`);
   }
 
-  return { apiToken, baseId, participantsTableId, sponsorshipTableId };
+  return value;
+}
+
+function getAirtableApiToken() {
+  return getRequiredEnvValue(
+    "AIRTABLE_API_TOKEN",
+    "NEXT_PUBLIC_AIRTABLE_API_TOKEN",
+    "Airtable API token",
+  );
+}
+
+function getAirtableBaseId() {
+  return getRequiredEnvValue(
+    "AIRTABLE_BASE_ID",
+    "NEXT_PUBLIC_AIRTABLE_BASE_ID",
+    "Airtable base ID",
+  );
 }
 
 async function parseAirtableError(response: Response) {
@@ -38,35 +61,140 @@ async function parseAirtableError(response: Response) {
 }
 
 export function getParticipantsTableId() {
-  return getAirtableConfig().participantsTableId;
+  return getRequiredEnvValue(
+    "AIRTABLE_PARTICIPANTS_TABLE_ID",
+    "NEXT_PUBLIC_AIRTABLE_PARTICIPANTS_TABLE_ID",
+    "Airtable participants table ID",
+  );
 }
 
 export function getSponsorshipTableId() {
-  return getAirtableConfig().sponsorshipTableId;
+  return getRequiredEnvValue(
+    "AIRTABLE_SPONSORSHIP_TABLE_ID",
+    "NEXT_PUBLIC_AIRTABLE_SPONSORSHIP_TABLE_ID",
+    "Airtable sponsorship table ID",
+  );
 }
 
-export async function createAirtableRecord(
-  tableId: string,
-  fields: AirtableRecordFields,
-) {
-  const { apiToken, baseId } = getAirtableConfig();
+export function getSchoolDatabaseTableId() {
+  return getRequiredEnvValue(
+    "AIRTABLE_SCHOOLS_TABLE_ID",
+    "NEXT_PUBLIC_AIRTABLE_SCHOOLS_TABLE_ID",
+    "Airtable schools table ID",
+  );
+}
 
-  const response = await fetch(`${AIRTABLE_API_BASE}/${baseId}/${tableId}`, {
-    method: "POST",
+function buildAirtableUrl(tableId: string, params?: URLSearchParams) {
+  const baseId = getAirtableBaseId();
+  const url = new URL(`${AIRTABLE_API_BASE}/${baseId}/${tableId}`);
+
+  if (params) {
+    url.search = params.toString();
+  }
+
+  return url;
+}
+
+async function airtableFetch(url: URL, init?: RequestInit) {
+  const apiToken = getAirtableApiToken();
+
+  const response = await fetch(url, {
+    ...init,
     headers: {
       Authorization: `Bearer ${apiToken}`,
       "Content-Type": "application/json",
+      ...(init?.headers ?? {}),
     },
     cache: "no-store",
-    body: JSON.stringify({
-      records: [{ fields }],
-      typecast: false,
-    }),
   });
 
   if (!response.ok) {
     throw new Error(await parseAirtableError(response));
   }
 
+  return response;
+}
+
+export async function createAirtableRecord(
+  tableId: string,
+  fields: AirtableRecordFields,
+) {
+  const response = await airtableFetch(buildAirtableUrl(tableId), {
+    method: "POST",
+    body: JSON.stringify({
+      records: [{ fields }],
+      typecast: false,
+    }),
+  });
+
   return response.json();
+}
+
+export async function listAirtableRecords<TFields extends object>(
+  tableId: string,
+  params?: URLSearchParams,
+) {
+  const records: AirtableRecord<TFields>[] = [];
+  let offset: string | null = null;
+
+  do {
+    const requestParams = new URLSearchParams(params?.toString() ?? "");
+    if (offset) {
+      requestParams.set("offset", offset);
+    }
+
+    const response = await airtableFetch(
+      buildAirtableUrl(tableId, requestParams),
+    );
+    const payload = (await response.json()) as {
+      offset?: string;
+      records?: AirtableRecord<TFields>[];
+    };
+
+    records.push(...(payload.records ?? []));
+    offset = payload.offset ?? null;
+  } while (offset);
+
+  return records;
+}
+
+function normalizeSchoolValue(value: string) {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function escapeFormulaValue(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+export async function findSchoolByNameCategoryLga(
+  tableId: string,
+  schoolName: string,
+  schoolCategory: string,
+  schoolLga: string,
+) {
+  const params = new URLSearchParams();
+  params.append("fields[]", "School Name");
+  params.append("fields[]", "School Category");
+  params.append("fields[]", "School Local Government Area");
+  params.set(
+    "filterByFormula",
+    `AND({School Category}="${escapeFormulaValue(schoolCategory)}",{School Local Government Area}="${escapeFormulaValue(schoolLga)}")`,
+  );
+
+  const records = await listAirtableRecords<SchoolRecordFields>(
+    tableId,
+    params,
+  );
+  const normalizedName = normalizeSchoolValue(schoolName);
+
+  return (
+    records.find((record) => {
+      const existingName = record.fields["School Name"];
+      if (typeof existingName !== "string") {
+        return false;
+      }
+
+      return normalizeSchoolValue(existingName) === normalizedName;
+    }) ?? null
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   initialRegistrationFormData,
@@ -9,20 +9,24 @@ import {
   ZONAL_FINALS_OPTIONS,
   type RegistrationFormData,
 } from "@/lib/forms";
-import {
-  findSchools,
-  NEW_SCHOOL_VALUE,
-} from "@/lib/registered-schools";
 import { Button } from "../../components/ui/button";
 
 const inputClass =
   "w-full bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:border-[#E8A020] transition-colors text-sm";
 
 const selectClass =
-  "w-full bg-white/5 border border-white/10 px-4 py-3 text-white outline-none focus:border-[#E8A020] transition-colors cursor-pointer appearance-none text-sm";
+  "w-full bg-white/5 border border-white/10 px-4 py-3 text-white outline-none focus:border-[#E8A020] transition-colors cursor-pointer appearance-none text-sm disabled:cursor-not-allowed disabled:opacity-70";
 
 const labelClass =
   "block text-[10px] font-bold tracking-widest uppercase text-white/40 mb-2";
+
+const NEW_SCHOOL_VALUE = "__new_school__";
+
+interface SchoolOption {
+  name: string;
+  category: string;
+  lga: string;
+}
 
 function Field({
   label,
@@ -185,6 +189,9 @@ export default function RegistrationModal({
     initialRegistrationFormData,
   );
   const [schoolSelection, setSchoolSelection] = useState("");
+  const [schoolOptions, setSchoolOptions] = useState<SchoolOption[]>([]);
+  const [isLoadingSchools, setIsLoadingSchools] = useState(false);
+  const [schoolLookupError, setSchoolLookupError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -203,10 +210,62 @@ export default function RegistrationModal({
     };
   }, [isOpen, onClose]);
 
-  const filteredSchools = useMemo(
-    () => findSchools(formData.schoolLGA, formData.schoolCategory),
-    [formData.schoolLGA, formData.schoolCategory],
-  );
+  useEffect(() => {
+    if (!isOpen || !formData.schoolLGA || !formData.schoolCategory) {
+      setSchoolOptions([]);
+      setIsLoadingSchools(false);
+      setSchoolLookupError("");
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const lookupSchools = async () => {
+      setIsLoadingSchools(true);
+      setSchoolLookupError("");
+
+      try {
+        const params = new URLSearchParams({
+          lga: formData.schoolLGA,
+          category: formData.schoolCategory,
+        });
+        const response = await fetch(`/api/schools?${params.toString()}`, {
+          method: "GET",
+          cache: "no-store",
+          signal: controller.signal,
+        });
+
+        const payload = (await response.json().catch(() => null)) as
+          | { error?: string; schools?: SchoolOption[] }
+          | null;
+
+        if (!response.ok) {
+          throw new Error(payload?.error || "Unable to load schools right now.");
+        }
+
+        setSchoolOptions(payload?.schools ?? []);
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setSchoolOptions([]);
+        setSchoolLookupError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load schools right now.",
+        );
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoadingSchools(false);
+        }
+      }
+    };
+
+    void lookupSchools();
+
+    return () => controller.abort();
+  }, [formData.schoolCategory, formData.schoolLGA, isOpen]);
 
   if (!isOpen) return null;
 
@@ -215,12 +274,22 @@ export default function RegistrationModal({
   };
 
   const handleLGAChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, schoolLGA: value, schoolFullName: "" }));
+    setFormData((prev) => ({
+      ...prev,
+      schoolLGA: value,
+      schoolSource: "existing",
+      schoolFullName: "",
+    }));
     setSchoolSelection("");
   };
 
   const handleCategoryChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, schoolCategory: value, schoolFullName: "" }));
+    setFormData((prev) => ({
+      ...prev,
+      schoolCategory: value,
+      schoolSource: "existing",
+      schoolFullName: "",
+    }));
     setSchoolSelection("");
   };
 
@@ -228,6 +297,7 @@ export default function RegistrationModal({
     setSchoolSelection(value);
     setFormData((prev) => ({
       ...prev,
+      schoolSource: value === NEW_SCHOOL_VALUE ? "new" : "existing",
       schoolFullName: value === NEW_SCHOOL_VALUE ? "" : value,
     }));
   };
@@ -261,6 +331,8 @@ export default function RegistrationModal({
         setSubmitted(false);
         setFormData(initialRegistrationFormData);
         setSchoolSelection("");
+        setSchoolOptions([]);
+        setSchoolLookupError("");
         setSubmitError("");
         onClose();
       }, 2000);
@@ -373,13 +445,16 @@ export default function RegistrationModal({
                       value={schoolSelection}
                       onChange={(e) => handleSchoolSelection(e.target.value)}
                       className={selectClass}
+                      disabled={isLoadingSchools}
                     >
                       <option value="" className="bg-[#0A0F1E]">
-                        {filteredSchools.length > 0
-                          ? "Choose your school"
-                          : "No registered schools match — pick the option below"}
+                        {isLoadingSchools
+                          ? "Loading schools..."
+                          : schoolOptions.length > 0
+                            ? "Choose your school"
+                            : "No registered schools match - pick the option below"}
                       </option>
-                      {filteredSchools.map((school) => (
+                      {schoolOptions.map((school) => (
                         <option
                           key={school.name}
                           value={school.name}
@@ -393,6 +468,11 @@ export default function RegistrationModal({
                       </option>
                     </select>
                   </Field>
+                  {schoolLookupError ? (
+                    <p className="mt-3 border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                      {schoolLookupError}
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
 

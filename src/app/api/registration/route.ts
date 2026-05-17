@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import {
   createAirtableRecord,
   getParticipantsTableId,
+  getSchoolDatabaseTableId,
+  findSchoolByNameCategoryLga,
 } from "@/lib/airtable";
 import {
   CLASS_OPTIONS,
@@ -17,6 +19,7 @@ export const runtime = "nodejs";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const SCHOOL_SOURCE_OPTIONS = ["existing", "new"] as const;
 
 class ValidationError extends Error {}
 
@@ -98,6 +101,10 @@ function requireOption<T extends readonly string[]>(
   return option as T[number];
 }
 
+function normalizeSchoolName(value: string) {
+  return value.trim().replace(/\s+/g, " ");
+}
+
 function sanitizeRegistrationPayload(payload: unknown): RegistrationFormData {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     throw new ValidationError("Invalid registration payload.");
@@ -126,7 +133,10 @@ function sanitizeRegistrationPayload(payload: unknown): RegistrationFormData {
     studentRep3GuardianNumber: requirePhone(data.studentRep3GuardianNumber, "Student Rep 3 Guardian Number"),
     schoolLGA: requireOption(data.schoolLGA, LGA_OPTIONS, "School LGA"),
     schoolCategory: requireOption(data.schoolCategory, SCHOOL_CATEGORY_OPTIONS, "School Category"),
-    schoolFullName: requireString(data.schoolFullName, "School Full Name"),
+    schoolSource: requireOption(data.schoolSource, SCHOOL_SOURCE_OPTIONS, "School Source"),
+    schoolFullName: normalizeSchoolName(
+      requireString(data.schoolFullName, "School Full Name"),
+    ),
     schoolAddress: requireString(data.schoolAddress, "School Address", 300),
     schoolEmail: requireEmail(data.schoolEmail, "School Email Address"),
     hearAboutAdewale: requireString(data.hearAboutAdewale, "Hear About Adewale", 300),
@@ -201,6 +211,24 @@ export async function POST(request: Request) {
   try {
     const payload = await request.json();
     const registration = sanitizeRegistrationPayload(payload);
+
+    if (registration.schoolSource === "new") {
+      const schoolsTableId = getSchoolDatabaseTableId();
+      const existingSchool = await findSchoolByNameCategoryLga(
+        schoolsTableId,
+        registration.schoolFullName,
+        registration.schoolCategory,
+        registration.schoolLGA,
+      );
+
+      if (!existingSchool) {
+        await createAirtableRecord(schoolsTableId, {
+          "School Name": registration.schoolFullName,
+          "School Category": registration.schoolCategory,
+          "School Local Government Area": registration.schoolLGA,
+        });
+      }
+    }
 
     await createAirtableRecord(
       getParticipantsTableId(),
