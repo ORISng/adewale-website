@@ -70,6 +70,19 @@ function requireEmail(value: unknown, fieldName: string) {
   return email;
 }
 
+function optionalEmail(value: unknown, fieldName: string) {
+  const email = optionalString(value, fieldName, 320).toLowerCase();
+  if (!email) {
+    return "";
+  }
+
+  if (!EMAIL_REGEX.test(email)) {
+    throw new ValidationError(`${fieldName} must be a valid email address.`);
+  }
+
+  return email;
+}
+
 function requirePhone(value: unknown, fieldName: string) {
   const phone = requireString(value, fieldName, 30);
   if (phone.replace(/\D/g, "").length < 7) {
@@ -138,7 +151,7 @@ function sanitizeRegistrationPayload(payload: unknown): RegistrationFormData {
       requireString(data.schoolFullName, "School Full Name"),
     ),
     schoolAddress: requireString(data.schoolAddress, "School Address", 300),
-    schoolEmail: requireEmail(data.schoolEmail, "School Email Address"),
+    schoolEmail: optionalEmail(data.schoolEmail, "School Email"),
     hearAboutAdewale: requireString(data.hearAboutAdewale, "Hear About Adewale", 300),
     zonalFinalsLocation: requireOption(
       data.zonalFinalsLocation,
@@ -226,6 +239,10 @@ export async function POST(request: Request) {
           "School Name": registration.schoolFullName,
           "School Category": registration.schoolCategory,
           "School Local Government Area": registration.schoolLGA,
+          "School Address": registration.schoolAddress,
+          ...(registration.schoolEmail
+            ? { "School Email": registration.schoolEmail }
+            : {}),
         });
       }
     }

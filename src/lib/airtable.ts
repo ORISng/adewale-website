@@ -12,6 +12,8 @@ export interface SchoolRecordFields {
   "School Name"?: string;
   "School Category"?: string;
   "School Local Government Area"?: string;
+  "School Address"?: string;
+  "School Email"?: string;
 }
 
 function getRequiredEnvValue(serverKey: string, publicKey: string, label: string) {

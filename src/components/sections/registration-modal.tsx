@@ -507,10 +507,9 @@ export default function RegistrationModal({
               <Field label="School Email Address">
                 <input
                   type="email"
-                  required
                   value={formData.schoolEmail}
                   onChange={(e) => handleChange("schoolEmail", e.target.value)}
-                  placeholder="school@example.com"
+                  placeholder="school@example.com (optional)"
                   className={inputClass}
                 />
               </Field>
