@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Adewale Student Conference",
+  title: "Adewale Students Conference",
 };
 
 export default function RootLayout({
