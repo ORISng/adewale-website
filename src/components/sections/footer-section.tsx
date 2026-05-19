@@ -8,7 +8,7 @@ export default function FooterSection() {
               ASC <span className="text-[#E8A020]">2026</span>
             </div>
             <p className="text-sm leading-relaxed text-[rgba(250,247,240,0.5)]">
-              Ogun State's most ambitious student innovation platform. Building tomorrow's geniuses — one edition at a time.
+              Ogun State's most ambitious student innovation platform. Building tomorrow's geniuses one edition at a time.
             </p>
           </div>
 
@@ -107,20 +107,20 @@ export default function FooterSection() {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="mailto:hello@asc2026.ng"
+                  href="mailto:adewaleconference@gmail.com"
                   className="hover:text-[#E8A020] transition-colors duration-200"
                 >
-                  hello@asc2026.ng
+                  adewaleconference@gmail.com
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="mailto:partnerships@asc2026.ng"
                   className="hover:text-[#E8A020] transition-colors duration-200"
                 >
                   partnerships@asc2026.ng
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="tel:+2348121026489"

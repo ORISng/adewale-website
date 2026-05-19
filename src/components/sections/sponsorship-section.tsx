@@ -109,13 +109,13 @@ export default function SponsorshipSection() {
                 Sponsorship
               </div>
               <h2 className="font-bebas text-5xl md:text-7xl text-[#0A0F1E] mb-8 leading-[0.95]">
-                INVEST IN OGUN STATE&apos;S
+                INVEST IN OGUN STATE'S
                 <br />
                 FUTURE.
               </h2>
               <p className="text-base md:text-lg text-[#0A0F1E] opacity-90 max-w-lg leading-relaxed">
                 ASC 2026 is our most significant edition yet. We seek partners
-                who believe investing in young people is the highest-return
+                who believe investing in young people is the highest return
                 investment any organisation can make.
               </p>
             </div>

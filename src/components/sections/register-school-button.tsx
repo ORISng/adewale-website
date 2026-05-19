@@ -11,10 +11,10 @@ export default function RegisterSchoolButton() {
     <>
       <Button
         variant="default"
-        className="py-6"
+        className="py-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
         onClick={() => setIsOpen(true)}
       >
-        Register Your School — Opens May 1st
+        Register Your School
       </Button>
       <RegistrationModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
