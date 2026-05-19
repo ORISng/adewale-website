@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "adewale-website",
+  title: "Adewale Student Conference",
 };
 
 export default function RootLayout({
