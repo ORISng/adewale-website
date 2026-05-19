@@ -25,7 +25,7 @@ const steps = [
   {
     num: "3",
     title: "Prepare for Zonals",
-    desc: "The zonal stage runs June–July. Your supervising teacher will be sent the schedule and topic brief at least 3 weeks in advance.",
+    desc: "The zonal stage runs June – July. Your supervising teacher will be sent the schedule and topic brief at least 3 weeks in advance.",
   },
   {
     num: "4",
@@ -97,7 +97,7 @@ export default function RegistrationSection() {
             <div className="flex flex-col gap-4">
               <RegisterSchoolButton />
               <Button variant="secondary" className="py-6" asChild>
-                <a href="mailto:hello@asc2026.ng?subject=ASC%202026%20Registration%20Question">
+                <a href="mailto:adewaleconference@gmail.com?subject=ASC%202026%20Registration%20Question">
                   Have a question? Email Us
                 </a>
               </Button>

@@ -45,7 +45,7 @@ export default function FounderSection() {
           </h2>
 
           <blockquote className="serif-display italic text-base md:text-lg text-[#0A0F1E] leading-relaxed border-l-2 border-[#E8A020] pl-5 mb-8">
-            &ldquo;I started this because I knew what it felt like to be the brightest person in the room with no room to grow. ASC is the room I wish I&rsquo;d had.&rdquo;
+            &ldquo;I started this because I knew what it felt like to be the brightest person in the room with no room to grow. ASC is the room I wish I had.&rdquo;
           </blockquote>
 
           <div className="space-y-4 text-sm md:text-base leading-relaxed text-[#3C4150] mb-8 max-w-prose">
@@ -53,10 +53,10 @@ export default function FounderSection() {
               Michael Adewale Adesanya is a politician, educator, and innovation advocate from Remo, Ogun State. With roots across Sagamu, Ikenne, and Remo North, he has spent the last decade building at the intersection of technology, education, and community development.
             </p>
             <p>
-              Michael brings four years of Silicon Valley experience, including connections forged at Stanford University and Y Combinator, back to Ogun State &mdash; channelling that exposure into programmes and institutions that serve young people at the grassroots. He serves as an Adjunct Lecturer in Engineering Entrepreneurship at the University of Lagos.
+              Michael brings four years of Silicon Valley experience, including connections forged at Stanford University and Y Combinator, back to Ogun State channelling that exposure into programmes and institutions that serve young people at the grassroots. He serves as an Adjunct Lecturer in Engineering Entrepreneurship at the University of Lagos.
             </p>
             <p>
-              ASC is his most personal project &mdash; a programme he has funded, run, and shown up for every year for five consecutive years. In 2026, he is taking the hardest step any founder can take: building the structure that makes it bigger than him.
+              ASC is his most personal project a programme he has funded, run, and shown up for every year for five consecutive years. In 2026, he is taking the hardest step any founder can take: building the structure that makes it bigger than him.
             </p>
           </div>
 

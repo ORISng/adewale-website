@@ -7,22 +7,22 @@ const whyCards = [
   {
     icon: "🏛️",
     title: "Institutional Credibility",
-    desc: "ASC is now anchored under the Ogun Economic & Innovation Council — a formally registered policy and development body. Your partnership is not a donation; it is an institutional investment with governance backing.",
+    desc: "ASC is now anchored under the Ogun Economic & Innovation Council a formally registered policy and development body. Your partnership is not a donation; it is an institutional investment with governance backing.",
   },
   {
     icon: "📸",
     title: "Premium Brand Visibility",
-    desc: "Your brand is placed in front of 1,000+ students, teachers, parents, and community leaders at the Grand Finale alone — plus months of school-level engagement during the zonal stage.",
+    desc: "Your brand is placed in front of 1,000+ students, teachers, parents, and community leaders at the Grand Finale alone plus months of school-level engagement during the zonal stage.",
   },
   {
     icon: "📊",
     title: "Measurable CSR Impact",
-    desc: "We provide sponsors with a full impact report after every edition — attendance figures, scholarship recipients, school participation, media coverage, and community reach data.",
+    desc: "We provide sponsors with a full impact report after every edition attendance figures, scholarship recipients, school participation, media coverage, and community reach data.",
   },
   {
     icon: "🤝",
     title: "Talent Pipeline Access",
-    desc: "The brightest SS2 students in Ogun State compete at ASC. Sponsors at the Gold tier and above receive early access to top performers — a pipeline of future engineers and innovators.",
+    desc: "The brightest SS2 students in Ogun State compete at ASC. Sponsors at the Gold tier and above receive early access to top performers a pipeline of future engineers and innovators.",
   },
   {
     icon: "🌍",

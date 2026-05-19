@@ -4,9 +4,6 @@ import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "adewale-website",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({

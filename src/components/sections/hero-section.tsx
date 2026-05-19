@@ -40,7 +40,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="serif-display text-base md:text-lg text-[rgba(250,247,240,0.7)] italic leading-relaxed max-w-md mt-8 mb-10">
-            Ogun State's most ambitious student innovation platform — now entering its sixth year as a permanent institution.
+            Ogun State's most ambitious student innovation platform now entering its sixth year as a permanent institution.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-10">
@@ -70,7 +70,7 @@ export default function HeroSection() {
           <img
             src="/assets/hero-image.jpg"
             alt="ASC speaker on stage"
-            className="absolute inset-0 w-full h-full object-cover opacity-50"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-[#0A0F1E]/85 via-[#0A0F1E]/30 to-transparent pointer-events-none" />
 

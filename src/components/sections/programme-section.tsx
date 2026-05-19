@@ -12,13 +12,13 @@ const programmeCards = [
     num: "01",
     Icon: FlaskConical,
     title: "The Adewale STEM Contest",
-    desc: "An inter-school science and technology competition open to SS2 students across Ogun State. Schools compete through qualifying zones before the top teams advance to the Grand Finale. Past topics have ranged from renewable energy to agricultural technology — challenging students to apply curriculum knowledge to real-world problems.",
+    desc: "An inter-school science and technology competition open to SS2 students across Ogun State. Schools compete through qualifying zones before the top teams advance to the Grand Finale. Past topics have ranged from renewable energy to agricultural technology challenging students to apply curriculum knowledge to real-world problems.",
   },
   {
     num: "02",
     Icon: Lightbulb,
     title: "Innovation Pitch Stage",
-    desc: "Student teams identify a problem in their community and pitch a solution — in front of a live panel of judges drawn from business, technology, and public service. This is where future entrepreneurs are born. Winners receive scholarship support and mentorship connections. The pitches get sharper every year.",
+    desc: "Student teams identify a problem in their community and pitch a solution in front of a live panel of judges drawn from business, technology, and public service. This is where future entrepreneurs are born. Winners receive scholarship support and mentorship connections. The pitches get sharper every year.",
   },
   {
     num: "03",
@@ -30,19 +30,19 @@ const programmeCards = [
     num: "04",
     Icon: Trophy,
     title: "The Grand Finale",
-    desc: "A landmark convergence held in October. 300 selected students and teachers gather for the main event, joined by 700 additional participants on the final day. This is where Ogun State's student community experiences what ambition feels like — together, at scale, on a proper stage.",
+    desc: "A landmark convergence held in October. 300 selected students and teachers gather for the main event, joined by 700 additional participants on the final day. This is where Ogun State's student community experiences what ambition feels like together, at scale, on a proper stage.",
   },
   {
     num: "05",
     Icon: GraduationCap,
     title: "Scholarship Awards",
-    desc: "Over ₦25 million has been distributed in scholarship support across five editions. Winners are selected on merit, with special consideration for students from underserved communities within the Remo axis. Every scholarship is a commitment — not just a cheque.",
+    desc: "Over ₦25 million has been distributed in scholarship support across five editions. Winners are selected on merit, with special consideration for students from underserved communities within the Remo axis. Every scholarship is a commitment not just a cheque.",
   },
   {
     num: "06",
     Icon: Landmark,
     title: "Year 6: The Institution",
-    desc: "In 2026, ASC takes its most significant step — transitioning from a founder-led initiative into a formally governed programme under the Ogun Economic & Innovation Council. This edition marks the beginning of a structure that will outlast any individual and serve Ogun State students for the decade ahead.",
+    desc: "In 2026, ASC takes its most significant step transitioning from a founder-led initiative into a formally governed programme under the Ogun Economic & Innovation Council. This edition marks the beginning of a structure that will outlast any individual and serve Ogun State students for the decade ahead.",
   },
 ];
 
@@ -65,7 +65,7 @@ export default function ProgrammeSection() {
           </div>
           <div className="md:pt-16 lg:pt-20">
             <p className="text-sm md:text-base leading-relaxed text-[#3C4150] max-w-md">
-              ASC is not a single event &mdash; it is a structured annual journey that takes students from their classrooms in Ogun State all the way to a national-standard innovation stage.
+              ASC is not a single event it is a structured annual journey that takes students from their classrooms in Ogun State all the way to a national-standard innovation stage.
             </p>
           </div>
         </div>

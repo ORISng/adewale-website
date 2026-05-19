@@ -81,7 +81,7 @@ export default function ImpactSection() {
           </div>
           <div className="md:pt-20 lg:pt-24">
             <p className="text-base md:text-lg leading-relaxed text-[rgba(250,247,240,0.7)] max-w-md">
-              From a single community event to a statewide institution &mdash; every number here represents a student who was seen, challenged, and invested in. This is what five years of unwavering commitment looks like.
+              From a single community event to a statewide institution every number here represents a student who was seen, challenged, and invested in. This is what five years of unwavering commitment looks like.
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function ImpactSection() {
           {photos.map((p) => (
             <figure
               key={p.caption}
-              className="relative aspect-video overflow-hidden opacity-50"
+              className="relative aspect-video overflow-hidden"
             >
               <img
                 src={p.src}

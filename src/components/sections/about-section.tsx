@@ -63,10 +63,10 @@ export default function AboutSection() {
 
           <div className="space-y-5 text-sm md:text-base leading-relaxed text-[#3C4150] max-w-prose">
             <p>
-              The Adewale Students Conference began in 2021 with a single conviction: that the brightest minds in Ogun State deserved more than a classroom ceiling. Five editions later, we have become the state's most consistent youth innovation platform &mdash; reaching over 5,000 students, distributing &#8358;25 million in scholarship support, and hosting a grand finale that brings together 1,000 students, teachers, and community leaders.
+              The Adewale Students Conference began in 2021 with a single conviction: that the brightest minds in Ogun State deserved more than a classroom ceiling. Five editions later, we have become the state's most consistent youth innovation platform reaching over 5,000 students, distributing &#8358;25 million in scholarship support, and hosting a grand finale that brings together 1,000 students, teachers, and community leaders.
             </p>
             <p>
-              In 2026, we enter a new chapter. ASC is transitioning from a passion-driven initiative into a formally institutionalised programme under the Ogun Economic &amp; Innovation Council &mdash; building the governance, partnerships, and systems that will carry this work forward for the next decade.
+              In 2026, we enter a new chapter. ASC is transitioning from a passion-driven initiative into a formally institutionalised programme under the Ogun Economic & Innovation Council building the governance, partnerships, and systems that will carry this work forward for the next decade.
             </p>
           </div>
 

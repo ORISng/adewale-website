@@ -46,7 +46,13 @@ export default function FaqSection() {
             </div>
             <p className="text-sm md:text-base leading-relaxed text-[#555870] mt-6">
               Can't find what you're looking for? Email us at{" "}
-              <strong>hello@asc2026.ng</strong> and we'll respond within 24 hours.
+              <a
+                href="mailto:adewaleconference@gmail.com"
+                className="font-bold text-[#0A0F1E] underline underline-offset-2 hover:text-[#E8A020] transition-colors"
+              >
+                adewaleconference@gmail.com
+              </a>{" "}
+              and we'll respond within 24 hours.
             </p>
           </div>
 
